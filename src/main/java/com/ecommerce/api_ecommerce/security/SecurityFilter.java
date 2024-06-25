@@ -1,5 +1,7 @@
 package com.ecommerce.api_ecommerce.security;
 
+import com.ecommerce.api_ecommerce.model.User;
+import com.ecommerce.api_ecommerce.model.enums.UserRole;
 import com.ecommerce.api_ecommerce.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,7 +20,7 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-    @Autowired
+    @Autowired(required = true)
     private MyTokenService tokenService;
     @Autowired
     private UserRepository userRepository;
@@ -28,8 +30,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenIfExists(request);
         if(token != null){
-            String username = tokenService.verifyToken(token);
-            UserDetails user = userRepository.findByUsername(username);
+            UserDataFromToken userDataFromToken = tokenService.verifyToken(token);
+//            String username = tokenService.verifyToken(token);
+//            UserDetails user = userRepository.findByUsername(username);
+            User user = User.builder().username(userDataFromToken.username())
+                    .role(UserRole.fromRole(userDataFromToken.role())).build();
 
             var usernamePassword = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePassword);

@@ -24,15 +24,19 @@ public class MyTokenService {
                 .withIssuer("ecommerce-matheus")
                 .withExpiresAt(getExpiretionInstant())
                 .withSubject(auth.getUsername())
+                .withClaim("role", auth.getRole().getRole())
                 .sign(algorithm);
     }
-    public String verifyToken(String token) {
+    public UserDataFromToken verifyToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        return JWT.require(algorithm)
+        var decoderJwt = JWT.require(algorithm)
                 .withIssuer("ecommerce-matheus")
-                .build()
-                .verify(token)
-                .getSubject();
+                .build();
+        String username = decoderJwt.verify(token).getSubject();
+        String role = decoderJwt.verify(token).getClaim("role").asString();
+        UserDataFromToken userDataFromToken = new UserDataFromToken(username, role);
+
+        return userDataFromToken;
     }
 
     private Instant getExpiretionInstant() {

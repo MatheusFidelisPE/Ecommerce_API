@@ -1,10 +1,7 @@
 package com.ecommerce.api_ecommerce.model;
 
 import com.ecommerce.api_ecommerce.model.enums.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +25,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @Column(length = 10)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Override
