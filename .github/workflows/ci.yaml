@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on:
+  pull_request
+
+jobs:
+  continuous-integration:
+    runs-on:
+      ubuntu-latest
+    steps:
+      - name: get workdirectory
+      - uses: actions/checkout@v4
+      - name: install java
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+          cach: maven
+      - name: Build with maven
+        run: mvn clean install --file pom.xml
+
