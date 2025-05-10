@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -31,17 +32,16 @@ public class ProductService {
 
     public ProductDto createProduct(ProductDto dto) {
         Product product = productMapper.toEntity(dto);
+
+        Optional<Product> existsProduct = productRepository
+                .findByName(product.getName());
+
+        if(existsProduct.isPresent()){
+            throw new RuntimeException("Product already exists");
+        }
         Product created  = productRepository.save(product);
-//        Log
-//        LogSystem log = LogSystem.builder()
-//                .logEnum(LogEnum.CREATE)
-//                .action("salvar")
-//                .editionMoment(LocalDateTime.now())
-//                .userId(user.getUsername())
-//                .typeEntity(TypeEntity.PRODUCT)
-//                .idEntity((long) created.getProductId())
-//                .build();
-//        logSystemRepository.save(log);
+
+
         return productMapper.toDto(created);
     }
 
@@ -58,8 +58,8 @@ public class ProductService {
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        productMapper.mapDtoToEtt(product, dto);
-        product.setProductId(id);
+        Product updatedProduct = productMapper.toEntity(dto);
+        updatedProduct.setProductId(id);
         productRepository.save(product);
 
         return productMapper.toDto(product);
