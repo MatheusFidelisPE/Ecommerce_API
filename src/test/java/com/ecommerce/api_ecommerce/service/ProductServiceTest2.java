@@ -120,26 +120,30 @@ public class ProductServiceTest2 {
     @DisplayName("Junit test for given Product when updateProduct is called then return Product Object")
     @Test
     void testGivenProductObject_WhenUpdateProduct_thenReturnUpdatedProductObjectDto() {
+
+        productDto.setName("Nome Novo");
+        product.setName("Nome Novo");
+
         given(repository.findById(any())).willReturn(Optional.of(product));
+        doNothing().when(mapper).mapDtoToEtt(product, productDto);
         given(repository.save(product)).willReturn(product);
-        given(mapper.toDto(product)).willReturn(productDto);
-        given(mapper.toEntity(productDto)).willReturn(product);
+        given(mapper.toDto(any())).willReturn(productDto);
 
         ProductDto dto = productService.updateProduct(1, productDto);
 
         assertNotNull(dto);
-        assertEquals("Nome", dto.getName());
+        assertEquals("Nome Novo", dto.getName());
     }
     @DisplayName("Junit  testGivenProductID_WhenDeleteProduct_thenReturnNothing")
     @Test
     void testGivenProductID_WhenDeleteProduct_thenReturnNothing() {
-     given(repository.findById(any())).willReturn(Optional.of(product));
-     willDoNothing().given(repository).deleteById(any());
 
-     productService.deleteById(1);
+        given(repository.findById(any())).willReturn(Optional.of(product));
+        willDoNothing().given(repository).deleteById(any());
 
+        productService.deleteById(1);
 
-     verify(repository, times(1)).deleteById(1);
+        verify(repository, times(1)).deleteById(1);
     }
 
 

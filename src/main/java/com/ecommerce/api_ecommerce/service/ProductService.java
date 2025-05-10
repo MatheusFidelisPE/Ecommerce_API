@@ -58,8 +58,8 @@ public class ProductService {
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        Product updatedProduct = productMapper.toEntity(dto);
-        updatedProduct.setProductId(id);
+        productMapper.mapDtoToEtt(product, dto);
+        product.setProductId(id);
         productRepository.save(product);
 
         return productMapper.toDto(product);
