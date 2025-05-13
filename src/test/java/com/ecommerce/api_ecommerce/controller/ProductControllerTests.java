@@ -41,6 +41,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -95,7 +96,7 @@ public class ProductControllerTests {
         result
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value("Nome"))
-                .andExpect(MockMvcResultMatchers.jsonPath("productId").value(0));
+                .andExpect(MockMvcResultMatchers.jsonPath("productId").value(Optional.of(0)));
     }
     @Test
     public void ProductController_CreateProduct_RetunErrorResponse() throws Exception {
