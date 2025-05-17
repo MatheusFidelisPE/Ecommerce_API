@@ -31,7 +31,7 @@ public class ProductController {
         return new ResponseEntity(productDtoList, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/create",
+    @PostMapping(value = "/",
             name ="create-product",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,7 +50,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping(value = "/get/{id}",
+    @GetMapping(value = "/{id}",
             name ="get-product",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProductById(@PathVariable("id") Integer id){
@@ -69,7 +69,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping(value = "/update/{id}",
+    @PutMapping(value = "/{id}",
             name = "update-product",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,7 +85,7 @@ public class ProductController {
             return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping(value = "/delete/{id}",
+    @DeleteMapping(value = "/{id}",
             name = "delete-product",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteProductById(@PathVariable("id") Integer id){
