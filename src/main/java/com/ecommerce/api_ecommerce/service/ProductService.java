@@ -65,7 +65,7 @@ public class ProductService {
         return productMapper.toDto(product);
     }
     
-    public void deleteById(Integer id) {
+public void deleteById(Integer id) {
         productRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         productRepository.deleteById(id);
