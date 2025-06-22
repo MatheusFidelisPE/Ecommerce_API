@@ -124,7 +124,7 @@ public class AuthControllerTests {
 //        when(myTokenService. createToken(any()))
 //                .thenReturn(token);
 //        when(authenticationManager.authenticate(any()))
-//                .thenReturn(Authentication);
+//                .thenReturn();
 ////        Act
 //        ResultActions result =  mockMvc
 //                .perform(post("/auth/login")

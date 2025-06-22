@@ -116,8 +116,7 @@ public class ProductControllerTests {
         when(productService.getProductByid(Mockito.any(Integer.class)))
                 .thenReturn(productDto);
 
-        ResultActions result =  mockMvc.perform(get("/api/product/get/1")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions result =  mockMvc.perform(get("/api/product/1"));
 
         result
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -134,7 +133,7 @@ public class ProductControllerTests {
         doThrow(new EntityNotFoundException()).when(productService)
                 .getProductByid(Mockito.any());
 
-        ResultActions result =  mockMvc.perform(get("/api/product/get/1")
+        ResultActions result =  mockMvc.perform(get("/api/product/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         result
@@ -148,7 +147,7 @@ public class ProductControllerTests {
         when(productService.updateProduct(Mockito.any(Integer.class),Mockito.any(ProductDto.class)))
                 .thenReturn(productDto);
 
-        ResultActions result =  mockMvc.perform(put("/api/product/update/1")
+        ResultActions result =  mockMvc.perform(put("/api/product/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productDto)));
 
@@ -166,7 +165,7 @@ public class ProductControllerTests {
         doThrow(new EntityNotFoundException()).when(productService)
                 .updateProduct(Mockito.any(), Mockito.any());
 
-        ResultActions result =  mockMvc.perform(put("/api/product/update/1")
+        ResultActions result =  mockMvc.perform(put("/api/product/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productDto)));
 
@@ -180,7 +179,7 @@ public class ProductControllerTests {
     public void ProductController_DeleteProduct_RetunNothing() throws Exception {
         doNothing().when(productService).deleteById(Mockito.any(Integer.class));
 
-        ResultActions result =  mockMvc.perform(delete("/api/product/delete/1")
+        ResultActions result =  mockMvc.perform(delete("/api/product/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         result
@@ -193,7 +192,7 @@ public class ProductControllerTests {
         ErrorResponse errorResponse = ErrorResponse.builder().code(404).errorMessage("Product with id"+1+"Not found").build();
         doThrow(new EntityNotFoundException()).when(productService).deleteById(Mockito.any());
 
-        ResultActions result =  mockMvc.perform(delete("/api/product/delete/1")
+        ResultActions result =  mockMvc.perform(delete("/api/product/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         result

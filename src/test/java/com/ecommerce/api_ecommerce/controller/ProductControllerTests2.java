@@ -139,22 +139,22 @@ public class ProductControllerTests2 {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-//    @DisplayName("test Given Product When FindById Then Return Product Object")
-//    @Test
-//    public void testGivenUpdateProduct_WhenUpdateProduct_ThenReturnUpdateProduct() throws Exception {
-//
-//        given(productService.updateProduct(any(), any(ProductDto.class)))
-//                .willReturn(productDto);
-//        int productId = 1;
-//
-//        ResultActions result = mockMvc.perform(put("/api/product/{id}", productId)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(productDto)));
-//
-//        result
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name", is(productDto.getName())));
-//    }
+    @DisplayName("test Given Product When FindById Then Return Product Object")
+    @Test
+    public void testGivenUpdateProduct_WhenUpdateProduct_ThenReturnUpdateProduct() throws Exception {
+
+        given(productService.updateProduct(any(), any(ProductDto.class)))
+                .willReturn(productDto);
+        int productId = 1;
+
+        ResultActions result = mockMvc.perform(put("/api/product/{id}", productId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        result
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(productDto.getName())));
+    }
 
 }

@@ -29,6 +29,15 @@ public class SecurityConfig {
 
     @Autowired
     private SecurityFilter securityFilter;
+
+    private final String[] whiteList = new String[]{
+        "swagger-ui.html",
+        "swagger-ui/**",
+        "v3/api-docs/**",
+        "v3/api-docs.yaml",
+        "/auth/login",
+        "/auth/register"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -36,8 +45,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(whiteList).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/product/create").hasRole("ADM")
                         .requestMatchers(HttpMethod.PUT, "/api/product/update").hasRole("MNG")
                         .anyRequest().authenticated()
