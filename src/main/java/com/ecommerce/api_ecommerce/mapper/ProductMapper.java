@@ -1,7 +1,9 @@
 package com.ecommerce.api_ecommerce.mapper;
 
 import com.ecommerce.api_ecommerce.dto.ProductDto;
+import com.ecommerce.api_ecommerce.dto.RegisterDTO;
 import com.ecommerce.api_ecommerce.model.Product;
+import com.ecommerce.api_ecommerce.model.User;
 import jakarta.persistence.ManyToMany;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,11 @@ public class ProductMapper {
 
     public void mapDtoToEtt(Product product, ProductDto dto) {
         modelMapper.map(dto, product);
+    }
+    public RegisterDTO userToDto(User user){
+        return new RegisterDTO(user.getUsername(),
+                user.getEmail(),
+                null,
+                user.getRole().getRole());
     }
 }

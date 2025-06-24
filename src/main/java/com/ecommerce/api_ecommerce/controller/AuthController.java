@@ -3,10 +3,12 @@ package com.ecommerce.api_ecommerce.controller;
 
 import com.ecommerce.api_ecommerce.dto.LoginDTO;
 import com.ecommerce.api_ecommerce.dto.RegisterDTO;
+import com.ecommerce.api_ecommerce.mapper.ProductMapper;
 import com.ecommerce.api_ecommerce.model.User;
 import com.ecommerce.api_ecommerce.repository.UserRepository;
 import com.ecommerce.api_ecommerce.security.MyTokenService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-//@CrossOrigin(origins = "http://127.0.0.1:5500/", methods = RequestMethod.POST)
 public class AuthController {
 
     @Autowired
@@ -31,6 +32,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private MyTokenService myTokenService;
+    private ModelMapper modelMapper = new ModelMapper();
+
 
     @PostMapping(value = "/register",
     consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -44,8 +47,8 @@ public class AuthController {
                 .username(data.username())
                 .password(encryptedPassword)
                 .build();
-        userRepository.save(user);
-        return new ResponseEntity<>("Usuário criado!", HttpStatus.CREATED);
+        User createdUser = userRepository.save(user);
+        return new ResponseEntity<>(new RegisterDTO(createdUser.getUsername(), null, createdUser.getRole(), createdUser.getEmail()), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/login",

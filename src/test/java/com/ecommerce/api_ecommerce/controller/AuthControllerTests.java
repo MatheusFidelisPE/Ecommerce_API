@@ -64,7 +64,13 @@ public class AuthControllerTests {
     private UserDetails userDetails;
     @BeforeEach
     public void init(){
-        this.registerDTO = new RegisterDTO("user", "123", UserRole.USER, "email@gmail");
+//        this.registerDTO = new RegisterDTO("user", "123", UserRole.USER, "email@gmail");
+        this.registerDTO = RegisterDTO.builder()
+                .username("user")
+                .password("123")
+                .role(UserRole.USER)
+                .email("user@gmail")
+                .build();
         this.loginDTO = new LoginDTO("user", "123");
         this.user = User.builder()
                 .email("user@gmail")
@@ -91,6 +97,7 @@ public class AuthControllerTests {
                         );
 //        Assert
         result
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
     @Test
