@@ -1,6 +1,7 @@
 package com.ecommerce.api_ecommerce.repository;
 
 import com.ecommerce.api_ecommerce.dto.ProductDto;
+import com.ecommerce.api_ecommerce.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.ecommerce.api_ecommerce.model.Product;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
-
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class ProductRepositoryTests {
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+public class ProductRepositoryTests extends AbstractIntegrationTest {
 
     @Autowired
     private ProductRepository productRepository;
