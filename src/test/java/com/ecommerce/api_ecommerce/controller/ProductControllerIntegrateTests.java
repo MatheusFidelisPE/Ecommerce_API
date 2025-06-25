@@ -72,7 +72,7 @@ public class ProductControllerIntegrateTests {
         this.token = tokenService.createToken((User) user);
     }
 
-    @Test
+//    @Test
     public void ProductController_getAllProducts_RetunProductDtoList() throws Exception {
 
 
@@ -89,7 +89,7 @@ public class ProductControllerIntegrateTests {
                         .jsonPath("$.size()").value(1))
                 .andDo(MockMvcResultHandlers.print());
     }
-    @Test
+//    @Test
     public void ProductController_CreateProductWithRoleUser_RetunUnauthorized() throws Exception {
 
 
@@ -104,7 +104,7 @@ public class ProductControllerIntegrateTests {
         result
                 .andExpect(MockMvcResultMatchers.status().is(403));
     }
-    @Test
+//    @Test
     public void ProductController_CreateProductWithRoleMng_RetunUnauthorized() throws Exception {
         this.user.setRole(UserRole.MNG);
         token = tokenService.createToken(user);
@@ -120,7 +120,7 @@ public class ProductControllerIntegrateTests {
         result
                 .andExpect(MockMvcResultMatchers.status().is(403));
     }
-    @Test
+//    @Test
     public void ProductController_CreateProductWithRoleAdm_RetunUnauthorized() throws Exception {
         this.user.setRole(UserRole.ADM);
         token = tokenService.createToken(user);

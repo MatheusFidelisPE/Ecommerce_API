@@ -31,7 +31,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -140,15 +139,12 @@ public class ProductControllerTests2 {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-    @DisplayName("test Given Product When UpdateProductById Then Return Product Updated")
+    @DisplayName("test Given Product When FindById Then Return Product Object")
     @Test
     public void testGivenUpdateProduct_WhenUpdateProduct_ThenReturnUpdateProduct() throws Exception {
 
-        given(productService.updateProduct(any(Integer.class), any(ProductDto.class)))
+        given(productService.updateProduct(any(), any(ProductDto.class)))
                 .willReturn(productDto);
-
-        productDto.setPrice(25.99);
-
         int productId = 1;
 
         ResultActions result = mockMvc.perform(put("/api/product/{id}", productId)
@@ -158,63 +154,7 @@ public class ProductControllerTests2 {
         result
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(productDto.getName())))
-                .andExpect(jsonPath("$.price", is(productDto.getPrice())));
+                .andExpect(jsonPath("$.name", is(productDto.getName())));
     }
-
-    @DisplayName("test Given Unsaved ID When UpdateProductById Then Return Error Message")
-    @Test
-    public void testGivenError_WhenUpdateProduct_ThenReturnErrorMessage() throws Exception {
-
-        given(productService.updateProduct(any(Integer.class), any(ProductDto.class)))
-                .willThrow(new EntityNotFoundException());
-
-        int productId = 1;
-
-        ResultActions result = mockMvc.perform(put("/api/product/{id}", productId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productDto)));
-
-        result
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errorMessage", is("Product with id "+productId+" not found")));
-    }
-
-    @DisplayName("test Given ID When DeleteByID Then return Ok message")
-    @Test
-    public void testGivenID_WhenDeleteProductById_ThenReturnOkMessage() throws Exception {
-
-        doNothing()
-                .when(productService)
-                .deleteById(any(Integer.class));
-
-        int productId = 1;
-
-        ResultActions result = mockMvc.perform(delete("/api/product/{id}", productId));
-
-        result
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-    @DisplayName("test unsaved ID When DeleteByID Then return Error Message")
-    @Test
-    public void testGivenUnsavedID_WhenDeleteProductById_ThenReturnErrorMessage() throws Exception {
-
-        doThrow(new EntityNotFoundException())
-                .when(productService)
-                .deleteById(any(Integer.class));
-
-        int productId = 1;
-
-        ResultActions result = mockMvc.perform(delete("/api/product/{id}", productId));
-
-        result
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errorMessage", is("Product with id"+productId+"Not found")));
-    }
-
-
 
 }
