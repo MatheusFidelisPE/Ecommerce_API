@@ -209,7 +209,7 @@ public class ProductControllerIntegrationTests extends AbstractIntegrationTest {
                 .delete("/{id}")
                 .then()
                 .statusCode(200)
-                .extract().body().asString();git
+                .extract().body().asString();
 
         assertNotNull(content);
         assertEquals("Produto deletado com sucesso", content);
