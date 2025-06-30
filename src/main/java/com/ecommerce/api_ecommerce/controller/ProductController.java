@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-    @RequestMapping(value = "/api/product",name = "products-controller")
+@RequestMapping(value = "/api/product",name = "products-controller")
 public class ProductController {
 
     @Autowired
@@ -33,7 +33,6 @@ public class ProductController {
 
     @PostMapping(value = "/",
             name ="create-product",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDto dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
