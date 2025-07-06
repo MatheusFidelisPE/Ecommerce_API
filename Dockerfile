@@ -4,7 +4,7 @@ COPY src /app/src
 COPY pom.xml /app
 
 WORKDIR /app
-RUN mvn clean install -DskipTests
+RUN mvn clean install -X
 
 FROM openjdk:21-slim
 COPY --from=build /app/target/api-ecommerce-0.0.1-SNAPSHOT.jar /app/app.jar
