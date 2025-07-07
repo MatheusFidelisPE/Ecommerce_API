@@ -15,7 +15,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '21'
-          cach: maven
+          cache: maven
       - name: Build with maven
-        run: mvn clean install --file pom.xml
+        run: mvn test --file pom.xml
 
