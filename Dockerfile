@@ -4,6 +4,11 @@ COPY src /app/src
 COPY pom.xml /app
 
 WORKDIR /app
+<<<<<<< HEAD
+=======
+# Como a ideia é testar antes o projeto através de uma action no github, por exemplo. Nesse momento, será feita a criação do nosso container docker
+RUN mvn clean install -DskipTests
+>>>>>>> 70cdeb3c826f15bad1706be584b5a96171c066bc
 
 RUN mvn clean install -X
 
