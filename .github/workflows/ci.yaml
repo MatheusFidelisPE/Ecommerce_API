@@ -8,9 +8,7 @@ jobs:
     runs-on:
       ubuntu-latest
     steps:
-#      - name: get workdirectory
       - uses: actions/checkout@v4
-#      - name: install java
       - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
