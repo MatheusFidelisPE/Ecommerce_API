@@ -7,8 +7,14 @@ services:
         condition: service_healthy
     ports:
       - 8080:8080
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3306/ecommerce
+      SPRING.DATASOURCE.USER: root
+      SPRING.DATASOURCE.PASSWORD: 12345678
     networks:
         - ecommerce-net
+    command:
+      mvn spring-boot:run
     restart:
       always
     volumes:
