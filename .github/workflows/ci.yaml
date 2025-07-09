@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Continuous Integration with Github Actions
 
 on:
   push:
@@ -11,11 +11,27 @@ jobs:
       ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Docker Login
+        # You may pin to the exact commit or the version.
+        # uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
+        uses: docker/login-action@v3.4.0
+        with:
+          # Username used to log against the Docker registry
+          username: ${{ secrets.DOCKER_USERNAME }}
+          # Password or personal access token used to log against the Docker registry
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: '21'
           cache: maven
-      - name: Build with maven
-        run: mvn test --file pom.xml
-
+      - name: Build Application Jar
+        run: mvn clean package --file pom.xml
+      - name: Docker compose build
+        run: docker compose build
+      - name: Push to Docker Hub
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:latest ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:latest
