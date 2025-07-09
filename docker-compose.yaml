@@ -1,7 +1,8 @@
 version: '3.9'
 services:
   spring-app:
-    build: ./
+    image:
+      matheusfidelispe/ecommerce-api
     depends_on:
       db:
         condition: service_healthy
