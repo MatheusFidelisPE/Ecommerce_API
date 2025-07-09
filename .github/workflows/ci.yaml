@@ -30,4 +30,8 @@ jobs:
         run: mvn clean package --file pom.xml
       - name: Docker compose build
         run: docker compose build
-
+      - name: Push to Docker Hub
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:latest ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-api:latest
